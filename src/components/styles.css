@@ -1,0 +1,191 @@
+@import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
+
+/* ------ INPUT FIELD COMPONENT ------ */
+
+.input {
+    /*border: solid red 5px;*/
+    display: flex;
+    width: 90%;
+    flex-direction: row;
+    position: relative; /* Position relative for go button to be position absolute*/
+    align-items: center;
+}
+
+#input__search {
+    /*border: solid blue 3px;*/
+    width: 100%;
+    border-radius: 50px;
+    border: none;
+    padding: 25px 30px; /* Increase height */
+    font-size: 15px;
+
+
+    /* Add shadow inside the box */
+    /* box-shadow: inset offset-x offset-y blur-radius color;*/
+    box-shadow: inset 0 0 10px black;
+    transition: box-shadow 0.5s ease;
+
+}
+
+/* When input is clicked on */
+#input__search:focus {
+    /* Spread shadow 1000px in all directions*/
+    box-shadow: 0 0 10px 1000px rgba(0, 0, 0, 0.5);
+    outline: none;
+}
+
+.input__submit-btn {
+    position: absolute;
+    right: 0px;
+    margin: 10px;
+
+    height: 50px;
+    width: 50px; 
+    
+    border-radius: 50%;
+    border: none;
+    font-size: 15px;
+    color: white;
+    background-color: rgb(53, 53, 53);
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 0 5px black;
+}
+
+.input__submit-btn:hover {
+    background-color: rgba(88, 88, 88, 0.905);
+    
+}
+
+/* When clicked on */
+.input__submit-btn:active {
+    transform: scale(0.8);
+}
+
+/* ------------ TODO LIST COMPONENT ------------ */
+.tasks {
+    width: 90%;
+    border: solid red 5px;
+
+    display: flex;
+    flex-direction: row;
+    /* Push element to next row if not sufficient amount of space */
+    flex-wrap: wrap; 
+    gap: 20px; /* Add gap when cards go to next row */
+    justify-content: space-evenly;
+    
+    
+
+}
+
+/* ---- TODO CARD COMPONENT ---- */
+.todoCard {
+    width: 30%;
+    
+    display: flex;
+    flex-direction: row;
+  
+    border-radius: 15px;
+    color: white;
+    padding: 20px;
+    margin-top: 15px;
+
+    background-image: url("../../public/todoCardBg.jpg");
+    transition: opacity 0.3s ease, transform 0.4s ease;
+}
+
+
+
+.todoCard--text {
+    flex: 1;
+    font-size: 20px;
+    font-family: "Bungee";
+    /* border: solid blue 3px; */
+
+    outline: none;
+    color: white;
+    caret-color: white;
+}
+
+ #todoCard--input {
+    font-size: 20px;
+    background-color: transparent; 
+    border: none;
+    
+    color: white;
+    caret-color: white;
+
+    position: relative;
+    top:-5px;
+    left: -2px;
+    flex: 1;
+    min-width: 30%;
+
+} 
+
+.todoCard--icons {
+    /* border: solid green 3px; */
+    flex-shrink: 0;
+}
+
+.icon {
+    font-size: 25px;
+    margin-left: 10px;
+    cursor: pointer;
+    border: none;
+}
+
+/* --- VAPORIZATION STYLING */
+.todoCard--delete {
+
+    transform: scale(0.8);
+    opacity: 0;
+}
+
+.delete-particle {
+    position: fixed;
+    color: black;
+    font-size: 10px;
+    animation: disintegrate 1s forwards;
+    opacity: 1;
+    z-index: 999;
+}
+
+@keyframes disintegrate {
+    /* Move until --x and --y are reached*/
+    to {
+      transform: translate(var(--x), var(--y)) scale(0.5);
+      opacity: 0;
+    }
+  }
+
+
+/* --- Animations for icons --- */
+.icon--animation {
+    transition: transform 0.3s ease, top 0.2s ease;
+    position: relative;
+}
+
+
+.icon--animation:hover {
+    transform: scale(1.2);
+}
+
+.icon--animation:active {
+    top: 1px;
+}
+
+
+@media (max-width:725px) {
+    .input {
+        width: 95%;
+    }
+
+    .tasks{
+        width: 95%;
+    }
+
+    /* Make them all one line ontop of one another */
+    .todoCard {
+        width: 100%;
+    }
+}
