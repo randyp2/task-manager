@@ -15,3 +15,11 @@ export interface Particles {
     x: string;
     y: string;
 }
+
+// TodoCard Reducer function 
+export type Actions = 
+    | {type: "add"; payload: string} // Accepts task descript to add
+    | {type: "done"; payload: number} // Accepts task id to edit
+    | {type: "undone"; payload: number} // Undos the done icon
+    | {type: "delete"; payload: number} // Accepts task id to remove
+    | {type: "edit"; payload: {id: number; newTask: string}}; // Accepts an instance of object that has a todoId and todoTask

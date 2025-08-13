@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer, useRef, useState } from "react";
-import { Particles, ToDo } from "../model";
+import { Actions, Particles, ToDo } from "../model";
 import "./styles.css";
 
 // Icons
@@ -9,46 +9,17 @@ import { MdDone } from "react-icons/md";
 import { ImCancelCircle } from "react-icons/im";
 
 
-// TodoCard Reducer function 
-type Actions = 
-    | {type: "done"; payload: number} // Accepts task id to edit
-    | {type: "delete"; payload: number} // Accepts task id to remove
-    | {type: "edit"; payload: {id: number; newTask: string}}; // Accepts an instance of object that has a todoId and todoTask
 
-const taskReducer = (state:ToDo[], action:Actions):ToDo[] => {
-    switch(action.type) {
-        case "done":
-            console.log("done reducer executing");
-            return state.map(task => (
-                task.id === action.payload ? {...task, isDone:true} : task
-            ));
-        
-        case "delete":
-            return state.filter(task => task.id !== action.payload);
-        case "edit":
-            // If newTask is not empty or has only spaces
-            //  - return newArray with new task
-            if(action.payload.newTask.trim().length !== 0) 
-                return state.map((task) => (
-                    task.id === action.payload.id ? {...task, todo:action.payload.newTask} : task
-                ));
-            break;
-        default: 
-            return state;
-        
-    }
-    return state;
-}
 
 interface Props {
     task: ToDo; 
-    tasks: ToDo[];
-    setTasks: React.Dispatch<React.SetStateAction<ToDo[]>>; // For deleting tasks
+    state: ToDo[];
+    dispatch: React.Dispatch<Actions>; // For deleting tasks
 }
 
-const TodoCard:React.FC<Props> = ({task, tasks, setTasks}) => {
+const TodoCard:React.FC<Props> = ({task, state, dispatch}) => {
     
-    const [state, dispatch] = useReducer(taskReducer, tasks);
+    // const [state, dispatch] = useReducer(taskReducer, tasks);
 
     // --- react hooks for edit task
     const inputRef = useRef<HTMLInputElement>(null);
@@ -127,29 +98,18 @@ const TodoCard:React.FC<Props> = ({task, tasks, setTasks}) => {
         
         // If edited task is not empty or only spaces
         if(editTask.trim().length !== 0){
-            setTasks(
-                tasks.map((task) => (
-                    task.id === id ? {...task, todo: editTask} : task
-                ))
-            );
+            dispatch({type:"edit", payload: {id: task.id, newTask: editTask}});
         }else {setEditTask(task.todo);}
 
         setIsEdit(false); // Finish editing    
     }
 
     // Remove the task from the tasks array
-    const handleDelete = (id:number) => {
-        setTasks((prevTasks) => prevTasks.filter(
-            (todo) => todo.id !== id
-        ));
-    };
-
+    const handleDelete = (id:number) => dispatch({type: "delete", payload: task.id});
+        
     // Update the isdone property
-    const handleDone = (id:number) => {
-        dispatch({type: "done", payload: id}) // Only need to pass action object, current state implicitl ypassed
-        console.log("Done status: " + task.isDone);
-    };
-
+    const handleDone = (id:number) => !task.isDone ? 
+    dispatch({type: "done", payload: id}) : dispatch({type: "undone", payload: id});
     
 
     return (
