@@ -1,19 +1,19 @@
 import React from "react";
 import "./styles.css"
-import { ToDo } from "../model";
+import { Actions, ToDo } from "../model";
 import TodoCard from "./TodoCard";
 
 interface Props {
-    tasks: ToDo[];
-    setTasks: React.Dispatch<React.SetStateAction<ToDo[]>>;
+    state: ToDo[];
+    dispatch: React.Dispatch<Actions>;
 }
 
-const TodoList:React.FC<Props> = ({tasks, setTasks}) => {
+const TodoList:React.FC<Props> = ({state, dispatch}) => {
     return (
         <div className="tasks">
             
-                {tasks.map(todo => (
-                    <TodoCard key= {Date.now() - todo.id} task={todo} tasks={tasks} setTasks={setTasks} />
+                {state.map(todo => (
+                    <TodoCard key= {Date.now() - todo.id} task={todo} state={state} dispatch={dispatch} />
                      
                 ))}
             
